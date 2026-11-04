@@ -33,9 +33,15 @@ First visit `/admin/setup` to create the admin password.
 
 ## Later: Aliyun production
 
-Same code runs unchanged. Put nginx in front with TLS (certbot), proxy to 127.0.0.1:3000,
-keep the provided systemd unit, point your filed domain A record at the server,
-and fill the ICP number in admin settings so the footer stays compliant.
+Same code runs unchanged:
+
+1. Point your filed domain A record at the server, open 80/443 in the security group.
+2. `sudo cp deploy/nginx-blog.conf /etc/nginx/conf.d/blog.conf`, edit `server_name`,
+   `sudo nginx -t && sudo systemctl reload nginx`.
+3. `sudo certbot --nginx -d your.domain.com` for TLS (or upload an Aliyun free cert).
+4. `bash deploy/install.sh` installs the app as a systemd service on port 3000.
+5. Fill the ICP number in admin settings so the footer stays compliant.
+6. Verify with `bash deploy/healthcheck.sh https://your.domain.com`.
 
 ## Layout
 
