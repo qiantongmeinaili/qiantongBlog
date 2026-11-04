@@ -25,7 +25,7 @@ First visit `/admin/setup` to create the admin password.
 
 1. Upload this directory (Filesystem tab or `git clone`), then:
    ```bash
-   bash deploy/install.sh     # add sudo if not root
+   bash deploy/install.sh     # normal user is fine; sudo only for the systemd unit
    ```
 2. In the platform Ports tab, publish port 3000.
 3. Open the public URL + `/admin/setup`, set password, fill site settings.
