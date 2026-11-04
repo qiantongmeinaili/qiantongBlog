@@ -1,0 +1,20 @@
+<%- include('partials/head') %>
+<% if (locals.tag) { %><p class="notice">Tag &ldquo;<%= tag %>&rdquo; &middot; <a href="/">See all</a></p><% } %>
+<% if (posts.length === 0) { %><p class="empty">No articles yet.</p><% } %>
+<% posts.forEach(function (p) { %>
+<article class="post-card">
+  <h2><a href="/post/<%= encodeURIComponent(p.slug) %>"><%= p.title %></a></h2>
+  <p class="meta">
+    <time><%= p.created_at.slice(0, 10) %></time>
+    <% (p.tags ? p.tags.split(',') : []).forEach(function (t) { t = t.trim(); if (!t) return; %><a class="tag" href="/?tag=<%= encodeURIComponent(t) %>"><%= t %></a><% }); %>
+  </p>
+  <p class="excerpt"><%= p.content.replace(/[#>*`_!\[\]()]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 110) %></p>
+</article>
+<% }); %>
+<% if (Object.keys(tagCount).length) { %>
+<section class="tags">
+  <h3>Tags</h3>
+  <p><% Object.keys(tagCount).forEach(function (t) { %><a class="tag" href="/?tag=<%= encodeURIComponent(t) %>"><%= t %> (<%= tagCount[t] %>)</a><% }); %></p>
+</section>
+<% } %>
+<%- include('partials/footer') %>

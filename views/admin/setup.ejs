@@ -1,0 +1,11 @@
+<%- include('../partials/head') %>
+<div class="auth-card">
+  <h1>Initialize the blog</h1>
+  <p class="muted">Set the admin password. At least 8 characters.</p>
+  <% if (locals.error) { %><p class="notice danger"><%= error %></p><% } %>
+  <form method="post" action="/admin/setup" class="form">
+    <label>Password<input type="password" name="password" autofocus required minlength="8"></label>
+    <button class="button" type="submit">Create admin</button>
+  </form>
+</div>
+<%- include('../partials/footer') %>

@@ -1,0 +1,10 @@
+<%- include('../partials/head') %>
+<div class="auth-card">
+  <h1>Log in</h1>
+  <% if (locals.error) { %><p class="notice danger"><%= error %></p><% } %>
+  <form method="post" action="/admin/login" class="form">
+    <label>Password<input type="password" name="password" autofocus required></label>
+    <button class="button" type="submit">Log in</button>
+  </form>
+</div>
+<%- include('../partials/footer') %>

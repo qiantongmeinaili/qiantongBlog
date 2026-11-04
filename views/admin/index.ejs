@@ -1,0 +1,37 @@
+<%- include('../partials/head') %>
+<h1>Admin</h1>
+<div class="actions">
+  <a class="button" href="/admin/posts/new">New article</a>
+  <a class="button ghost" href="/admin/settings">Site settings</a>
+  <form method="post" action="/admin/logout" class="inline"><button class="button ghost" type="submit">Log out</button></form>
+</div>
+<h2>Articles</h2>
+<table class="table">
+  <thead><tr><th>Title</th><th>Status</th><th>Updated</th><th>Actions</th></tr></thead>
+  <tbody>
+  <% posts.forEach(function (p) { %>
+    <tr>
+      <td><a href="/post/<%= encodeURIComponent(p.slug) %>" target="_blank" rel="noopener"><%= p.title %></a></td>
+      <td><%= p.status === 'published' ? 'Published' : 'Draft' %></td>
+      <td><%= p.updated_at.slice(0, 16) %></td>
+      <td class="row-actions">
+        <a href="/admin/posts/<%= p.id %>/edit">Edit</a>
+        <form method="post" action="/admin/posts/<%= p.id %>/delete" class="inline" onsubmit="return confirm('Delete this article?')"><button type="submit" class="link danger">Delete</button></form>
+      </td>
+    </tr>
+  <% }); %>
+  </tbody>
+</table>
+<h2>Pending comments (<%= pending.length %>)</h2>
+<% if (pending.length === 0) { %><p class="empty">No pending comments.</p><% } %>
+<% pending.forEach(function (c) { %>
+<div class="comment">
+  <p class="meta"><%= c.author %> on &ldquo;<a href="/post/<%= encodeURIComponent(c.post_slug) %>"><%= c.post_title %></a>&rdquo; &middot; <%= c.created_at.slice(0, 16) %></p>
+  <p><%= c.content %></p>
+  <div class="actions">
+    <form method="post" action="/admin/comments/<%= c.id %>/approve" class="inline"><button class="button" type="submit">Approve</button></form>
+    <form method="post" action="/admin/comments/<%= c.id %>/delete" class="inline"><button class="button ghost" type="submit">Delete</button></form>
+  </div>
+</div>
+<% }); %>
+<%- include('../partials/footer') %>

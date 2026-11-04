@@ -1,0 +1,22 @@
+{
+  "name": "qiantong-blog",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Dynamic personal blog: Express + SQLite + Markdown",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "smoke": "node scripts/smoke.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.10.0",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "markdown-it": "^14.1.0"
+  }
+}

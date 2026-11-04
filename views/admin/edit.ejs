@@ -1,0 +1,17 @@
+<%- include('../partials/head') %>
+<h1><%= post.id ? 'Edit article' : 'New article' %></h1>
+<form method="post" action="<%= post.id ? `/admin/posts/${post.id}` : '/admin/posts' %>" class="form">
+  <label>Title<input name="title" value="<%= post.title %>" required maxlength="120"></label>
+  <label>Slug<input name="slug" value="<%= post.slug %>" placeholder="Auto-generated if left empty. Used in the URL" maxlength="80"></label>
+  <label>Tags<input name="tags" value="<%= post.tags %>" placeholder="Comma-separated, e.g. tech, life"></label>
+  <label>Status<select name="status">
+    <option value="draft" <%= post.status === 'draft' ? 'selected' : '' %>>Draft</option>
+    <option value="published" <%= post.status === 'published' ? 'selected' : '' %>>Published</option>
+  </select></label>
+  <label>Body (Markdown)<textarea name="content" rows="18"><%= post.content %></textarea></label>
+  <div class="actions">
+    <button class="button" type="submit">Save</button>
+    <a class="button ghost" href="/admin">Back</a>
+  </div>
+</form>
+<%- include('../partials/footer') %>

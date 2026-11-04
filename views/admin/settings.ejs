@@ -1,0 +1,14 @@
+<%- include('../partials/head') %>
+<h1>Site settings</h1>
+<form method="post" action="/admin/settings" class="form">
+  <label>Site title<input name="site_title" value="<%= s.site_title %>" placeholder="My blog" maxlength="60"></label>
+  <label>Subtitle<input name="subtitle" value="<%= s.subtitle %>" placeholder="One line to introduce this blog" maxlength="120"></label>
+  <label>Site URL<input name="site_url" value="<%= s.site_url %>" placeholder="https://blog.example.com, used for RSS and sitemap" maxlength="120"></label>
+  <label>ICP filing number<input name="icp_number" value="<%= s.icp_number %>" placeholder="Shown in the footer after filing is approved. Leave empty for now" maxlength="60"></label>
+  <label>About page (Markdown)<textarea name="about" rows="8"><%= s.about %></textarea></label>
+  <div class="actions">
+    <button class="button" type="submit">Save</button>
+    <a class="button ghost" href="/admin">Back</a>
+  </div>
+</form>
+<%- include('../partials/footer') %>
