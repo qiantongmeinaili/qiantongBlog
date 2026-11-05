@@ -1,0 +1,15 @@
+<%- include('../partials/head') %>
+<h1>Guestbook management</h1>
+<div class="actions"><a class="button ghost" href="/admin">Back</a></div>
+<% if (entries.length === 0) { %><p class="empty glass">No messages.</p><% } %>
+<% entries.forEach(function (g) { %>
+<div class="card gb">
+  <p class="meta"><%= g.author %> &middot; <%= g.created_at.slice(0, 16) %> &middot; <%= g.status === 'approved' ? 'Approved' : 'Pending' %></p>
+  <p><%= g.content %></p>
+  <div class="actions">
+    <% if (g.status !== 'approved') { %><form method="post" action="/admin/guestbook/<%= g.id %>/approve" class="inline"><button class="button" type="submit">Approve</button></form><% } %>
+    <form method="post" action="/admin/guestbook/<%= g.id %>/delete" class="inline"><button class="button ghost" type="submit">Delete</button></form>
+  </div>
+</div>
+<% }); %>
+<%- include('../partials/footer') %>

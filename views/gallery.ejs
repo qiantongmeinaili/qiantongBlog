@@ -1,0 +1,15 @@
+<%- include('partials/head') %>
+<section class="page-head reveal">
+  <h1>Pictures</h1>
+  <p class="sub">Moments I couldn't bear to delete</p>
+</section>
+<% if (shots.length === 0) { %><p class="empty glass">The album is still empty. Upload the first one from admin &rarr; Image management.</p><% } %>
+<div class="masonry">
+<% shots.forEach(function (s) { %>
+  <figure class="shot reveal" data-full="/static/uploads/<%= s.filename %>">
+    <img src="/static/uploads/<%= s.filename %>" alt="<%= s.caption %>" loading="lazy">
+    <figcaption><%= s.caption %></figcaption>
+  </figure>
+<% }); %>
+</div>
+<%- include('partials/footer') %>

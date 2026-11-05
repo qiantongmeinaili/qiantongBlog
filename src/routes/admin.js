@@ -5,6 +5,20 @@ const { db, getSetting, setSetting, nowLocal } = require('../db');
 const router = express.Router();
 const loginAttempts = [];
 
+const fs = require('node:fs');
+const path = require('node:path');
+const multer = require('multer');
+const uploadDir = path.join(__dirname, '..', '..', 'public', 'uploads');
+fs.mkdirSync(uploadDir, { recursive: true });
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, uploadDir),
+  filename: (req, file, cb) => {
+    const ext = (String(file.originalname).match(/\.[a-z0-9]+$/i) || ['.jpg'])[0].toLowerCase();
+    cb(null, `${Date.now()}-${Math.round(Math.random() * 1e6)}${ext}`);
+  },
+});
+const upload = multer({ storage, limits: { fileSize: 8 * 1024 * 1024 } });
+
 const hashPassword = (pw) => {
   const salt = crypto.randomBytes(16).toString('hex');
   return `${salt}:${crypto.scryptSync(pw, salt, 64).toString('hex')}`;
@@ -115,6 +129,39 @@ router.get('/settings', requireAuth, (req, res) => {
 router.post('/settings', requireAuth, (req, res) => {
   ['site_title', 'subtitle', 'site_url', 'icp_number', 'about'].forEach((k) => setSetting(k, String(req.body[k] || '')));
   res.redirect('/admin/settings');
+});
+
+router.get('/uploads', requireAuth, (req, res) => {
+  res.render('admin/uploads', { shots: db.prepare('SELECT * FROM uploads ORDER BY created_at DESC').all(), title: '图片管理' });
+});
+router.post('/uploads', requireAuth, upload.single('image'), (req, res) => {
+  if (!req.file) return res.status(400).send('没有收到文件');
+  const caption = String(req.body.caption || '').trim() || String(req.file.originalname).replace(/\.[a-z0-9]+$/i, '');
+  db.prepare('INSERT INTO uploads (filename, caption, created_at) VALUES (?,?,?)').run(req.file.filename, caption, nowLocal());
+  res.redirect('/admin/uploads');
+});
+router.post('/uploads/:id/delete', requireAuth, (req, res) => {
+  const row = db.prepare('SELECT * FROM uploads WHERE id = ?').get(req.params.id);
+  if (row) {
+    try { fs.unlinkSync(path.join(uploadDir, row.filename)); } catch (err) { /* file already gone */ }
+    db.prepare('DELETE FROM uploads WHERE id = ?').run(row.id);
+  }
+  res.redirect('/admin/uploads');
+});
+
+router.get('/guestbook', requireAuth, (req, res) => {
+  res.render('admin/guestbook', {
+    entries: db.prepare("SELECT * FROM guestbook ORDER BY (status = 'pending') DESC, created_at DESC").all(),
+    title: '留言板管理',
+  });
+});
+router.post('/guestbook/:id/approve', requireAuth, (req, res) => {
+  db.prepare("UPDATE guestbook SET status = 'approved' WHERE id = ?").run(req.params.id);
+  res.redirect('/admin/guestbook');
+});
+router.post('/guestbook/:id/delete', requireAuth, (req, res) => {
+  db.prepare('DELETE FROM guestbook WHERE id = ?').run(req.params.id);
+  res.redirect('/admin/guestbook');
 });
 
 module.exports = router;

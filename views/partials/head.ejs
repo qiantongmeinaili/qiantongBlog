@@ -7,16 +7,23 @@
 <% if (site.subtitle) { %><meta name="description" content="<%= site.subtitle %>"><% } %>
 <link rel="alternate" type="application/rss+xml" title="<%= site.title %>" href="/rss.xml">
 <link rel="stylesheet" href="/static/style.css">
+<script src="/static/main.js" defer></script>
 </head>
 <body>
-<header class="site-header">
-  <div class="container header-inner">
+<div class="bg" aria-hidden="true"></div>
+<header class="nav">
+  <div class="nav-inner">
     <a class="brand" href="/"><%= site.title %></a>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/about">About</a>
-      <a href="/rss.xml">Subscribe</a>
+    <nav class="menu">
+      <a href="/" class="<%= locals.path === '/' && !locals.tag ? 'on' : '' %>">Home</a>
+      <a href="/?tag=Daily" class="<%= locals.tag === 'Daily' ? 'on' : '' %>">Daily</a>
+      <a href="/?tag=Selected" class="<%= locals.tag === 'Selected' ? 'on' : '' %>">Selected</a>
+      <a href="/gallery" class="<%= locals.path === '/gallery' ? 'on' : '' %>">Pictures</a>
+      <a href="/guestbook" class="<%= locals.path === '/guestbook' ? 'on' : '' %>">Guestbook</a>
     </nav>
+    <a class="rss" href="/rss.xml" title="RSS Subscribe" aria-label="RSS Subscribe">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+    </a>
   </div>
 </header>
-<main class="container">
+<main class="wrap">

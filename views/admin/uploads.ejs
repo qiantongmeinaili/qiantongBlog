@@ -1,0 +1,19 @@
+<%- include('../partials/head') %>
+<h1>Image management</h1>
+<form method="post" action="/admin/uploads" enctype="multipart/form-data" class="card form upload-form">
+  <label>Choose image<input type="file" name="image" accept="image/png,image/jpeg,image/webp,image/gif" required></label>
+  <label>Caption<input name="caption" maxlength="80" placeholder="One-line caption. Filename used if left empty"></label>
+  <div class="actions"><button class="button" type="submit">Upload</button><a class="button ghost" href="/admin">Back</a></div>
+</form>
+<div class="masonry">
+<% shots.forEach(function (s) { %>
+  <figure class="shot">
+    <img src="/static/uploads/<%= s.filename %>" alt="<%= s.caption %>">
+    <figcaption>
+      <span><%= s.caption %></span>
+      <form method="post" action="/admin/uploads/<%= s.id %>/delete" class="inline" onsubmit="return confirm('Delete this image?')"><button class="link danger" type="submit">Delete</button></form>
+    </figcaption>
+  </figure>
+<% }); %>
+</div>
+<%- include('../partials/footer') %>

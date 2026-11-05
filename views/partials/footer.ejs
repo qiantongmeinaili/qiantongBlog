@@ -1,7 +1,12 @@
 </main>
-<footer class="site-footer">
-  <div class="container">
+<footer class="foot">
+  <div class="foot-inner">
     <p>&copy; <%= site.year %> <%= site.title %></p>
+    <p class="foot-links">
+      <a href="/about">About</a>
+      <a href="/rss.xml">Subscribe</a>
+      <a href="/admin">Admin</a>
+    </p>
     <% if (site.icp) { %><p><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener"><%= site.icp %></a></p><% } %>
   </div>
 </footer>

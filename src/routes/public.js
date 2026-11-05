@@ -43,6 +43,24 @@ router.post('/post/:slug/comment', (req, res) => {
   res.redirect(`/post/${encodeURIComponent(post.slug)}?commented=1`);
 });
 
+router.get('/gallery', (req, res) => {
+  const shots = db.prepare('SELECT * FROM uploads ORDER BY created_at DESC').all();
+  res.render('gallery', { shots, title: '图片' });
+});
+
+router.get('/guestbook', (req, res) => {
+  const entries = db.prepare("SELECT * FROM guestbook WHERE status = 'approved' ORDER BY created_at DESC").all();
+  res.render('guestbook', { entries, commented: req.query.commented === '1', title: '留言板' });
+});
+router.post('/guestbook', (req, res) => {
+  const author = String(req.body.author || '').trim().slice(0, 60);
+  const content = String(req.body.content || '').trim().slice(0, 2000);
+  if (author && content) {
+    db.prepare('INSERT INTO guestbook (author, content, created_at) VALUES (?,?,?)').run(author, content, nowLocal());
+  }
+  res.redirect('/guestbook?commented=1');
+});
+
 router.get('/rss.xml', (req, res) => {
   const posts = db.prepare("SELECT * FROM posts WHERE status = 'published' ORDER BY created_at DESC LIMIT 20").all();
   const base = baseUrl(req);

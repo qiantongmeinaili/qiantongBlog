@@ -1,0 +1,26 @@
+<%- include('partials/head') %>
+<section class="page-head reveal">
+  <h1>Guestbook</h1>
+  <p class="sub">Say anything. I'll see it in the admin panel</p>
+</section>
+<section class="card reveal gb-form-card">
+  <form method="post" action="/guestbook" class="form gb-form">
+    <input name="author" placeholder="Nickname" required maxlength="60">
+    <textarea name="content" rows="3" placeholder="Leave a word..." required maxlength="2000"></textarea>
+    <div class="actions">
+      <button class="button" type="submit">Leave a mark</button>
+      <span class="hint">Messages appear after review</span>
+    </div>
+  </form>
+</section>
+<% if (locals.commented) { %><p class="notice glass">Received. It will show here once approved.</p><% } %>
+<section class="gb-list">
+<% entries.forEach(function (g) { %>
+  <div class="card gb reveal">
+    <p class="meta"><%= g.author %> &middot; <%= g.created_at.slice(0, 10) %></p>
+    <p><%= g.content %></p>
+  </div>
+<% }); %>
+<% if (entries.length === 0) { %><p class="empty glass">No messages yet. Claim the sofa.</p><% } %>
+</section>
+<%- include('partials/footer') %>

@@ -1,5 +1,5 @@
 <%- include('partials/head') %>
-<article class="post-full">
+<article class="card post-full reveal">
   <h1><%= post.title %></h1>
   <p class="meta">
     <time><%= post.created_at.slice(0, 10) %></time>
@@ -7,7 +7,7 @@
   </p>
   <div class="content"><%- post.html %></div>
 </article>
-<section class="comments">
+<section class="card comments reveal">
   <h2>Comments</h2>
   <% if (locals.commented) { %><p class="notice">Comment submitted. It will appear once approved by the admin.</p><% } %>
   <% if (comments.length === 0) { %><p class="empty">No comments yet. Be the first.</p><% } %>
@@ -17,10 +17,10 @@
     <p><%= c.content %></p>
   </div>
   <% }); %>
-  <form method="post" action="/post/<%= encodeURIComponent(post.slug) %>/comment" class="comment-form">
+  <form method="post" action="/post/<%= encodeURIComponent(post.slug) %>/comment" class="form comment-form">
     <input name="author" placeholder="Nickname" required maxlength="60">
     <textarea name="content" placeholder="Write a comment..." required maxlength="2000" rows="3"></textarea>
-    <button type="submit">Submit comment</button>
+    <button class="button" type="submit">Submit comment</button>
   </form>
 </section>
 <%- include('partials/footer') %>

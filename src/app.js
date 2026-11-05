@@ -30,6 +30,7 @@ function createApp() {
   }));
 
   app.use((req, res, next) => {
+    res.locals.path = req.path;
     res.locals.site = {
       title: getSetting('site_title') || 'My Blog',
       subtitle: getSetting('subtitle') || '',

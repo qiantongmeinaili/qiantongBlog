@@ -43,6 +43,14 @@ const assert = (cond, msg) => {
   await req('POST', '/admin/comments/1/approve', {});
   const approvedHtml = await (await req('GET', '/post/test')).text();
   assert(approvedHtml.includes('Well written!'), 'Comment shown on frontend after approval');
+  assert((await req('GET', '/gallery')).status === 200, 'Gallery page 200');
+  assert((await req('POST', '/guestbook', { author: 'Visitor', content: 'First!' })).status === 302, 'Guestbook post redirects');
+  const gbBefore = await (await req('GET', '/guestbook')).text();
+  assert(!gbBefore.includes('First!'), 'Unapproved guestbook entry hidden');
+  await req('POST', '/admin/guestbook/1/approve', {});
+  const gbAfter = await (await req('GET', '/guestbook')).text();
+  assert(gbAfter.includes('First!'), 'Approved guestbook entry shows');
+  assert((await req('GET', '/admin/uploads')).status === 200, 'Uploads admin page 200');
   assert((await req('GET', '/rss.xml')).status === 200, 'RSS 200');
   assert((await req('GET', '/sitemap.xml')).status === 200, 'Sitemap 200');
   assert((await req('GET', '/nope')).status === 404, '404 page');
