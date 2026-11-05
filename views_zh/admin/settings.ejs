@@ -1,0 +1,14 @@
+<%- include('../../views/partials/head') %>
+<h1>站点设置</h1>
+<form method="post" action="/admin/settings" class="form">
+  <label>站点标题<input name="site_title" value="<%= s.site_title %>" placeholder="我的博客" maxlength="60"></label>
+  <label>副标题<input name="subtitle" value="<%= s.subtitle %>" placeholder="一句话介绍这个博客" maxlength="120"></label>
+  <label>站点网址<input name="site_url" value="<%= s.site_url %>" placeholder="https://你的域名，用于 RSS 和 sitemap" maxlength="120"></label>
+  <label>ICP 备案编号<input name="icp_number" value="<%= s.icp_number %>" placeholder="备案通过后显示在页脚，现在留空即可" maxlength="60"></label>
+  <label>关于页面（Markdown）<textarea name="about" rows="8"><%= s.about %></textarea></label>
+  <div class="actions">
+    <button class="button" type="submit">保存</button>
+    <a class="button ghost" href="/admin">返回</a>
+  </div>
+</form>
+<%- include('../../views/partials/footer') %>

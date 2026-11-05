@@ -1,0 +1,17 @@
+<%- include('../../views/partials/head') %>
+<h1><%= post.id ? '编辑文章' : '新文章' %></h1>
+<form method="post" action="<%= post.id ? `/admin/posts/${post.id}` : '/admin/posts' %>" class="form">
+  <label>标题<input name="title" value="<%= post.title %>" required maxlength="120"></label>
+  <label>网址别名<input name="slug" value="<%= post.slug %>" placeholder="留空自动生成，会用在文章网址里" maxlength="80"></label>
+  <label>标签<input name="tags" value="<%= post.tags %>" placeholder="用逗号分隔，比如 日常, 精选"></label>
+  <label>状态<select name="status">
+    <option value="draft" <%= post.status === 'draft' ? 'selected' : '' %>>草稿</option>
+    <option value="published" <%= post.status === 'published' ? 'selected' : '' %>>发布</option>
+  </select></label>
+  <label>正文（Markdown）<textarea name="content" rows="18"><%= post.content %></textarea></label>
+  <div class="actions">
+    <button class="button" type="submit">保存</button>
+    <a class="button ghost" href="/admin">返回</a>
+  </div>
+</form>
+<%- include('../../views/partials/footer') %>

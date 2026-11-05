@@ -10,7 +10,8 @@ const adminRoutes = require('./routes/admin');
 function createApp() {
   const app = express();
   app.set('view engine', 'ejs');
-  app.set('views', path.join(__dirname, '..', 'views'));
+  // views_zh shadows same-named templates in views (Chinese replacements)
+  app.set('views', [path.join(__dirname, '..', 'views_zh'), path.join(__dirname, '..', 'views')]);
   app.disable('x-powered-by');
 
   app.use(express.urlencoded({ extended: false }));
