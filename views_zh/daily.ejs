@@ -1,8 +1,8 @@
-<%- include('../../views/partials/head') %>
+<%- include('../views/partials/head') %>
 <section class="page-head reveal">
   <h1>日常</h1>
   <p class="sub">所有平常日子的记录</p>
 </section>
 <% if (locals.tag) { %><p class="notice glass">标签「<%= tag %>」 · <a href="/daily">全部</a></p><% } %>
 <%- include('partials/list') %>
-<%- include('../../views/partials/footer') %>
+<%- include('../views/partials/footer') %>
