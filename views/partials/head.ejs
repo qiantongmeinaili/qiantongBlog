@@ -18,8 +18,8 @@
     <a class="brand" href="/"><%= site.title %></a>
     <nav class="menu">
       <a href="/" class="<%= locals.path === '/' && !locals.tag ? 'on' : '' %>">Home</a>
-      <a href="/?tag=Daily" class="<%= locals.tag === 'Daily' ? 'on' : '' %>">Daily</a>
-      <a href="/?tag=Selected" class="<%= locals.tag === 'Selected' ? 'on' : '' %>">Selected</a>
+      <a href="/daily" class="<%= locals.path === '/daily' ? 'on' : '' %>">日常</a>
+      <a href="/featured" class="<%= locals.path === '/featured' ? 'on' : '' %>">精选</a>
       <a href="/gallery" class="<%= locals.path === '/gallery' ? 'on' : '' %>">Pictures</a>
       <a href="/guestbook" class="<%= locals.path === '/guestbook' ? 'on' : '' %>">Guestbook</a>
     </nav>

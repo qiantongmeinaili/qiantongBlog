@@ -1,0 +1,14 @@
+<% if (posts.length === 0) { %><p class="empty glass">还没有文章。</p><% } %>
+<section class="cards">
+<% posts.forEach(function (p) { %>
+  <article class="card reveal">
+    <h2><a href="/post/<%= encodeURIComponent(p.slug) %>"><%= p.title %></a></h2>
+    <p class="meta">
+      <time><%= p.created_at.slice(0, 10) %></time>
+      <% (p.tags ? p.tags.split(',') : []).forEach(function (t) { t = t.trim(); if (!t) return; %><span class="tag"><%= t %></span><% }); %>
+    </p>
+    <p class="excerpt"><%= p.content.replace(/[#>*`_!\[\]()]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 90) %></p>
+    <a class="more" href="/post/<%= encodeURIComponent(p.slug) %>">阅读全文</a>
+  </article>
+<% }); %>
+</section>

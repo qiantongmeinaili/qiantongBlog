@@ -85,4 +85,16 @@ router.get('/sitemap.xml', (req, res) => {
   res.type('application/xml; charset=utf-8').send(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`);
 });
 
+router.get('/daily', (req, res) => {
+  const tag = String(req.query.tag || '').trim();
+  const all = db.prepare("SELECT * FROM posts WHERE status = 'published' ORDER BY created_at DESC").all();
+  const posts = tag ? all.filter((p) => tagList(p).includes(tag)) : all;
+  res.render('daily', { posts, tag, title: '日常' });
+});
+router.get('/featured', (req, res) => {
+  const posts = db.prepare("SELECT * FROM posts WHERE status = 'published' ORDER BY created_at DESC").all()
+    .filter((p) => tagList(p).includes('精选'));
+  res.render('featured', { posts, title: '精选' });
+});
+
 module.exports = router;

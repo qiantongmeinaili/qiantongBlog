@@ -1,0 +1,62 @@
+<%- include('../../views/partials/head') %>
+<style>
+.hero-welcome {
+  font-family: var(--serif);
+  font-size: clamp(30px, 6vw, 54px);
+  line-height: 1.3;
+  margin: 0 0 10px;
+  letter-spacing: 0;
+  text-shadow: 0 2px 22px rgba(0, 0, 0, 0.18);
+}
+.hero-welcome-en { color: var(--muted); font-size: clamp(14px, 2.4vw, 18px); margin: 0; font-style: italic; }
+.quote-card { max-width: 620px; margin: 8px auto 36px; padding: 26px 30px 22px; text-align: center; }
+.quote-mark { font-family: var(--serif); font-size: 44px; line-height: 1; color: var(--accent); opacity: 0.7; display: block; margin-bottom: 6px; }
+.quote-text { margin: 0; font-family: var(--serif); font-size: 17px; }
+.quote-from { margin: 8px 0 0; color: var(--muted); font-size: 13px; }
+.home-latest { margin-top: 6px; }
+.home-latest h3 { text-align: center; color: var(--muted); font-size: 15px; font-weight: 600; margin: 0 0 14px; }
+</style>
+<section class="hero reveal">
+  <p class="hero-welcome">欢迎来到浅桐美乃莉的博客</p>
+  <p class="hero-welcome-en">Welcome to Asakiri Minori's Blog</p>
+</section>
+<section class="quote-card glass reveal">
+  <span class="quote-mark">&ldquo;</span>
+  <p class="quote-text" id="quote-text"></p>
+  <p class="quote-from" id="quote-from"></p>
+</section>
+<% if (locals.posts && posts.length) { %>
+<section class="home-latest reveal">
+  <h3>最新文章</h3>
+  <section class="cards">
+  <% posts.slice(0, 3).forEach(function (p) { %>
+    <article class="card">
+      <h2><a href="/post/<%= encodeURIComponent(p.slug) %>"><%= p.title %></a></h2>
+      <p class="meta">
+        <time><%= p.created_at.slice(0, 10) %></time>
+        <% (p.tags ? p.tags.split(',') : []).forEach(function (t) { t = t.trim(); if (!t) return; %><span class="tag"><%= t %></span><% }); %>
+      </p>
+      <a class="more" href="/post/<%= encodeURIComponent(p.slug) %>">阅读全文</a>
+    </article>
+  <% }); %>
+  </section>
+</section>
+<% } %>
+<script>
+(function () {
+  var quotes = [
+    ['把每一天过成值得记录的样子。', '浅桐美乃莉'],
+    ['文字是时间的琥珀。', '随笔集'],
+    ['慢慢写，慢慢生活。', '浅桐美乃莉'],
+    ['光落在哪里，哪里就值得抬头。', '佚名'],
+    ['日常即道场。', '佚名'],
+    ['把喜欢的事做到极致，就是浪漫。', '浅桐美乃莉'],
+    ['记录本身，就是对生活的一次拥抱。', '佚名'],
+    ['世界很吵，听自己的心跳。', '浅桐美乃莉']
+  ];
+  var q = quotes[Math.floor(Math.random() * quotes.length)];
+  document.getElementById('quote-text').textContent = q[0];
+  document.getElementById('quote-from').textContent = '—— ' + q[1];
+})();
+</script>
+<%- include('../../views/partials/footer') %>
